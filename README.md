@@ -1,4 +1,5 @@
 # Iliad Unofficial API
+[![Build Status](https://travis-ci.org/MattVoid/Iliad-Unofficial-API.svg?branch=master)](https://travis-ci.org/MattVoid/Iliad-Unofficial-API)
 
 This is an unofficial API developed to learn. Iliad S.P.A. is not responsible in any way.
 

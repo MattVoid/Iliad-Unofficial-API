@@ -15,6 +15,7 @@ const ILIAD_OPTION_URL = {
 	document: 'le-condizioni-della-mia-offerta',
 	recover: 'forget'
 };
+// Area Personale
 app.get('/login', function (req, res) {
 	res.type('json'); // set Content-Type response
 	// get the information from the request query string
@@ -1403,5 +1404,44 @@ app.get('/voicemail/change_options', function (req, res) {
 		data_store = { "error": "Params cannot be undefined", 'status': "error"};
 		res.status(400).send(data_store);
 	}
+});
+// Iliad Store
+app.get('/store', function (req, res) {
+    res.type('json'); // set Content-Type response
+	var search = req.query.search;
+	var data_store = { 'data': {}, 'status': ''};
+	var options = {
+        url: "https://www.iliad.it/assets/store-locator/borne_interactive.json",
+        json: true
+	};
+	if (search){
+		request(options, function (error, response, body) {
+			if (!error){
+				var index = 0;
+				body.forEach(element => {
+					if (search.toLowerCase() == element['localite'].toLowerCase() || search == element['cp']){
+						data_store["data"][index] = {};
+						data_store["data"][index]["address"] = element["adresse"].split("\n").join(" ");
+						data_store["data"][index]["id"] = element["id_enseigne"].split("\n").join(" ");
+						data_store["data"][index]["type"] = element["enseigne_label"].split("\n").join(" ");
+						data_store["data"][index]["cap"] = element["cp"].split("\n").join(" ");
+						data_store["data"][index]["latitude"] = element["latitude"].split("\n").join(" ");
+						data_store["data"][index]["longitude"] = element["longitude"].split("\n").join(" ");
+						data_store["data"][index]["city"] = element["localite"].split("\n").join(" ");
+						data_store["data"][index]["schedule"] = element["horaire"];
+						index++;
+					}
+				});
+				data_store["status"] = "success";
+				res.status(200).send(data_store);
+			} else {
+				data_store = { "error": error, 'status': "error"};
+				res.status(500).send(data_store);
+			}
+		});
+	} else {
+		data_store = { "error": "Params cannot be undefined", "status": "error"};
+		res.status(400).send(data_store);
+	} 
 });
 const server = app.listen(process.env.PORT || 1331, function () {});

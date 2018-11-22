@@ -160,4 +160,4 @@ Params undefined
 
 ## More
 
-https://app.swaggerhub.com/apis/MattVoid/Iliad/docs/1.0.0
+https://app.swaggerhub.com/apis/MattVoid/Iliad/1.0.0
